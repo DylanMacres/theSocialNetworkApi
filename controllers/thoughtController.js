@@ -11,7 +11,7 @@ getSingleThought(req, res) {
             :res.json(thought)
     )
     .catch((err) => res.status(500).json(err))
-};
+},
 
 //getting all thoughts
 getAllThoughts(req, res) {
@@ -20,8 +20,24 @@ getAllThoughts(req, res) {
         return res.json(thoughts);
     })
     .catch((err) => res.status(500).json(err))
+},
+
+//creating a thought 
+createThought(req, res) {
+    Thought.create(req.body)
+    .then((thought) => {
+        return User.findOneAndUpdate(
+            { _id: req.body.userId },
+            { $push: { thoughts: _id } },
+            { new: true }
+        );
+        res.json(thought);
+    })
+    .catch((err) => res.status(500).json(err))
+},
+//Update a thougth 
+updateThought(req, res) {
+    Thought.
 }
-
-
 
 }
