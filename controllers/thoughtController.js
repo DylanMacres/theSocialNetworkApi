@@ -37,7 +37,30 @@ createThought(req, res) {
 },
 //Update a thougth 
 updateThought(req, res) {
-    Thought.
-}
+    Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $set: req.body },
+        { runValidators: true, new: true }
+    )
+    .then((thought) => 
+    !thought 
+    ?res.status(404).json({ message: "Couldnt find this thought!" })
+    : res.json(thought)
+    )
+    .catch((err) => res.status(500).json(err))
+},
+//deleting a thought 
+deleteThought(req,res) {
+    Thought.findByIdAndDelete({_id: req.body.params.thoughtId })
+    .then((thought) => {
+    return User.findByIdAndUpdate(
+        { username: thought.username },
+        { $pull: { thoughts: thoughts._id } }
+    );
+    })
+    .then(() => res.json({ message: "Thought has been deleted! "}))
+    .catch((err) => res.status(500).json(err))
+    
+},
 
 }
