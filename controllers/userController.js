@@ -45,6 +45,33 @@ module.exports = {
         .catch((err) => res.status(500).json(err));
     },
 
+    //deleting user
+    deleteUser(req,res) {
+        User.findByIdAndDelete({_id: req.body.params.userId })
+        .then((user) => 
+        !user 
+        ? res.status(404).json({ message: "Couldn't find that user!"})
+        : res.json(user)
+        )
+        .catch((err) => res.status(500).json(err));
+        },
+   
+        //adding a friend 
+
+        addFriend(req,res) {
+            User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $addToSet: {friends: req.params.friendsId } },
+            { runValidators: true, new: true }
+            )
+            .then((user) => 
+            !user 
+            ? res.status(404).json({ message: "Couldn't find that user!"})
+            : res.json(user)
+            ).catch((err) => res.status(500).json(err))
+        }
+
+        
 
 
 
