@@ -69,6 +69,20 @@ module.exports = {
             ? res.status(404).json({ message: "Couldn't find that user!"})
             : res.json(user)
             ).catch((err) => res.status(500).json(err))
+        },
+
+        //removing friends 
+        deleteFriend(req,res) {
+            User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $pull: {friends: req.params.friendsId } },
+            { runValidators: true, new: true }
+            )
+            .then((user) => 
+            !user 
+            ? res.status(404).json({ message: "Couldn't find that user!"})
+            : res.json(user)
+            ).catch((err) => res.status(500).json(err))
         }
 
         
