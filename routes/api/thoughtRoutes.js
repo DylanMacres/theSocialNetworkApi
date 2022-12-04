@@ -37,3 +37,6 @@ router
 router
     .route('/:thoughtId/:reactionId')
     .delete(deleteReaction)
+
+
+    module.exports = router;
